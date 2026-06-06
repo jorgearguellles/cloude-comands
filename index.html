@@ -1,0 +1,630 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Claude Code - Referencia de Comandos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --dark: #141413;
+            --light: #faf9f5;
+            --mid-gray: #b0aea5;
+            --light-gray: #e8e6dc;
+            --orange: #d97757;
+            --blue: #6a9bcc;
+            --green: #788c5d;
+            --bg-dark: #0f0f0e;
+            --bg-light: #ffffff;
+            --border: #e8e6dc;
+            --text-primary: #141413;
+            --text-secondary: #b0aea5;
+            --transition: cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: 'Lora', Georgia, serif;
+            background: linear-gradient(135deg, var(--light) 0%, #f5f3ed 100%);
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+
+        /* HEADER */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+            background: rgba(250, 249, 245, 0.8);
+            border-bottom: 1px solid rgba(232, 230, 220, 0.5);
+            animation: slideDown 0.6s var(--transition);
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 20px 40px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 40px;
+        }
+
+        .logo {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 24px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--orange) 0%, var(--blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.5px;
+        }
+
+        .search-container {
+            flex: 1;
+            max-width: 500px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 12px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--light-gray);
+            background: var(--bg-light);
+            font-family: inherit;
+            font-size: 15px;
+            color: var(--text-primary);
+            outline: none;
+            transition: all 0.3s var(--transition);
+            box-shadow: 0 2px 8px rgba(20, 20, 19, 0.05);
+        }
+
+        .search-input:focus {
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px rgba(217, 119, 87, 0.1);
+            transform: translateY(-1px);
+        }
+
+        .search-input::placeholder {
+            color: var(--mid-gray);
+        }
+
+        /* MAIN CONTENT */
+        main {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 140px 40px 60px;
+        }
+
+        .hero {
+            margin-bottom: 80px;
+            animation: fadeInUp 0.8s var(--transition) 0.2s both;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .hero h1 {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 48px;
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 20px;
+            letter-spacing: -1px;
+        }
+
+        .hero p {
+            font-size: 18px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin-bottom: 30px;
+        }
+
+        .stats {
+            display: flex;
+            gap: 40px;
+            margin-top: 30px;
+        }
+
+        .stat {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .stat-number {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 32px;
+            font-weight: 700;
+            background: linear-gradient(135deg, var(--orange) 0%, var(--blue) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .stat-label {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        /* FILTERS */
+        .filters {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 50px;
+            flex-wrap: wrap;
+            animation: fadeInUp 0.8s var(--transition) 0.4s both;
+        }
+
+        .filter-btn {
+            padding: 10px 20px;
+            border-radius: 50px;
+            border: 1px solid var(--light-gray);
+            background: var(--bg-light);
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 14px;
+            font-weight: 500;
+            color: var(--text-primary);
+            cursor: pointer;
+            transition: all 0.3s var(--transition);
+            white-space: nowrap;
+        }
+
+        .filter-btn:hover {
+            border-color: var(--orange);
+            color: var(--orange);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(217, 119, 87, 0.15);
+        }
+
+        .filter-btn.active {
+            background: var(--orange);
+            color: var(--light);
+            border-color: var(--orange);
+            box-shadow: 0 4px 12px rgba(217, 119, 87, 0.25);
+        }
+
+        /* COMMANDS GRID */
+        .commands-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+            gap: 24px;
+            animation: fadeInUp 0.8s var(--transition) 0.6s both;
+        }
+
+        .command-card {
+            background: var(--bg-light);
+            border: 1px solid var(--light-gray);
+            border-radius: 16px;
+            padding: 28px;
+            cursor: pointer;
+            transition: all 0.3s var(--transition);
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 8px rgba(20, 20, 19, 0.05);
+        }
+
+        .command-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--orange), var(--blue), var(--green));
+            transform: scaleX(0);
+            transform-origin: left;
+            transition: transform 0.3s var(--transition);
+        }
+
+        .command-card:hover {
+            border-color: var(--orange);
+            transform: translateY(-8px);
+            box-shadow: 0 12px 32px rgba(20, 20, 19, 0.1);
+        }
+
+        .command-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .command-icon {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 48px;
+            height: 48px;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--orange) 0%, var(--blue) 100%);
+            color: var(--light);
+            font-size: 24px;
+            margin-bottom: 16px;
+            transition: all 0.3s var(--transition);
+        }
+
+        .command-card:hover .command-icon {
+            transform: scale(1.1) rotate(5deg);
+        }
+
+        .command-name {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 8px;
+            color: var(--text-primary);
+            font-weight: bold;
+        }
+
+        .command-category {
+            display: inline-block;
+            font-size: 12px;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--orange);
+            margin-bottom: 12px;
+        }
+
+        .command-description {
+            font-size: 14px;
+            color: var(--text-secondary);
+            margin-bottom: 16px;
+            line-height: 1.6;
+        }
+
+        .command-uses {
+            border-top: 1px solid var(--light-gray);
+            padding-top: 16px;
+            margin-top: 16px;
+        }
+
+        .uses-label {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+            color: var(--text-primary);
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .use-item {
+            font-size: 13px;
+            color: var(--text-secondary);
+            margin-bottom: 6px;
+            padding-left: 16px;
+            position: relative;
+            transition: all 0.3s var(--transition);
+        }
+
+        .use-item::before {
+            content: '→';
+            position: absolute;
+            left: 0;
+            color: var(--blue);
+            font-weight: bold;
+        }
+
+        .command-card:hover .use-item {
+            color: var(--text-primary);
+            transform: translateX(4px);
+        }
+
+        /* NO RESULTS */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 80px 40px;
+            animation: fadeIn 0.4s var(--transition);
+        }
+
+        .no-results-icon {
+            font-size: 48px;
+            margin-bottom: 16px;
+            opacity: 0.5;
+        }
+
+        .no-results h3 {
+            font-family: 'Poppins', Arial, sans-serif;
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+
+        .no-results p {
+            color: var(--text-secondary);
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--light-gray);
+            margin-top: 100px;
+            background: linear-gradient(180deg, transparent, rgba(232, 230, 220, 0.3));
+        }
+
+        .footer-content {
+            max-width: 1400px;
+            margin: 0 auto;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 16px;
+                padding: 16px 20px;
+            }
+
+            .search-container {
+                max-width: none;
+            }
+
+            main {
+                padding: 120px 20px 40px;
+            }
+
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .commands-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .stats {
+                gap: 20px;
+            }
+
+            .filters {
+                gap: 10px;
+            }
+        }
+
+        /* ANIMATIONS ON SCROLL */
+        .command-card {
+            opacity: 0;
+            animation: fadeInUp 0.6s var(--transition) forwards;
+        }
+
+        .command-card:nth-child(1) { animation-delay: 0.1s; }
+        .command-card:nth-child(2) { animation-delay: 0.15s; }
+        .command-card:nth-child(3) { animation-delay: 0.2s; }
+        .command-card:nth-child(n+4) { animation-delay: 0.25s; }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-content">
+            <div class="logo">⚡ Claude Code</div>
+            <div class="search-container">
+                <input 
+                    type="text" 
+                    class="search-input" 
+                    id="searchInput" 
+                    placeholder="Buscar comandos..."
+                >
+            </div>
+        </div>
+    </header>
+
+    <main>
+        <section class="hero">
+            <h1>Referencia de Comandos</h1>
+            <p>Domina todos los comandos de Claude Code para optimizar tu flujo de trabajo. Con más de 80+ comandos disponibles, encuentra exactamente lo que necesitas.</p>
+            <div class="stats">
+                <div class="stat">
+                    <span class="stat-number">80+</span>
+                    <span class="stat-label">Comandos</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">12</span>
+                    <span class="stat-label">Categorías</span>
+                </div>
+                <div class="stat">
+                    <span class="stat-number">∞</span>
+                    <span class="stat-label">Posibilidades</span>
+                </div>
+            </div>
+        </section>
+
+        <div class="filters" id="filters">
+            <button class="filter-btn active" data-category="all">Todos</button>
+            <button class="filter-btn" data-category="📋">Gestión</button>
+            <button class="filter-btn" data-category="🔧">Configuración</button>
+            <button class="filter-btn" data-category="📝">Revisión</button>
+            <button class="filter-btn" data-category="⚙️">Ejecución</button>
+            <button class="filter-btn" data-category="🧠">Contexto</button>
+            <button class="filter-btn" data-category="🔄">Control</button>
+            <button class="filter-btn" data-category="🤖">Agentes</button>
+        </div>
+
+        <div class="commands-grid" id="commandsGrid">
+            <!-- Se llenará con JavaScript -->
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-content">
+            <p>Claude Code • Documentación oficial • <a href="https://code.claude.com" style="color: var(--orange); text-decoration: none;">code.claude.com</a></p>
+        </div>
+    </footer>
+
+    <script>
+        const commands = [
+            // GESTIÓN DE PROYECTOS
+            { name: '/init', category: '📋', description: 'Inicializa un proyecto con archivo CLAUDE.md', uses: ['Primer sesión en repositorio', 'Configurar nuevo proyecto', 'Setup inicial'] },
+            { name: '/memory', category: '📋', description: 'Edita archivos de memoria CLAUDE.md', uses: ['Refinar instrucciones', 'Activar auto-memory', 'Actualizar contexto'] },
+            { name: '/clear', category: '📋', description: 'Inicia conversación nueva manteniendo memoria', uses: ['Cambiar de tarea', 'Limpiar contexto largo', 'Reset conversación'] },
+            { name: '/resume', category: '📋', description: 'Continúa conversación anterior', uses: ['Retomar trabajo', 'Múltiples sesiones', 'Recuperar progreso'] },
+            { name: '/branch', category: '📋', description: 'Crea rama de conversación actual', uses: ['Probar dirección diferente', 'Experimentación', 'Preservar original'] },
+            { name: '/rename', category: '📋', description: 'Renombra la sesión actual', uses: ['Organizar sesiones', 'Etiquetar trabajo', 'Documentar'] },
+
+            // CONFIGURACIÓN
+            { name: '/model', category: '🔧', description: 'Cambia el modelo IA actual', uses: ['Sonnet vs Opus', 'Ajustar velocidad/calidad', 'Experimentos'] },
+            { name: '/effort', category: '🔧', description: 'Ajusta nivel de razonamiento', uses: ['Problemas complejos', 'Rápidas respuestas', 'Balance optimizado'] },
+            { name: '/config', category: '🔧', description: 'Abre interfaz de configuración', uses: ['Cambiar tema', 'Personalizar preferencias', 'Estilo de salida'] },
+            { name: '/theme', category: '🔧', description: 'Cambia tema de color del terminal', uses: ['Modo claro/oscuro', 'Temas daltonizados', 'Preferencias visuales'] },
+            { name: '/fast', category: '🔧', description: 'Activa/desactiva modo rápido', uses: ['Respuestas rápidas', 'Balance con calidad', 'Testing rápido'] },
+            { name: '/voice', category: '🔧', description: 'Activa dictado de voz', uses: ['Escribir con voz', 'Hands-free coding', 'Accesibilidad'] },
+
+            // REVISIÓN Y ANÁLISIS
+            { name: '/diff', category: '📝', description: 'Visor interactivo de cambios', uses: ['Revisar cambios antes de commit', 'Ver qué cambió', 'Validación pre-push'] },
+            { name: '/code-review', category: '📝', description: 'Revisa diff para bugs y mejoras', uses: ['Detectar problemas', 'Aplicar fixes', 'PR review'] },
+            { name: '/code-review ultra', category: '📝', description: 'Revisión profunda multi-agente en nube', uses: ['Revisión exhaustiva', 'Pre-producción', 'Quality assurance'] },
+            { name: '/simplify', category: '📝', description: 'Revisa código para limpiar', uses: ['Reducir complejidad', 'Mejorar legibilidad', 'Refactoring'] },
+            { name: '/security-review', category: '📝', description: 'Analiza cambios por vulnerabilidades', uses: ['Antes de desplegar', 'Detectar inyecciones', 'Auth issues'] },
+            { name: '/review', category: '📝', description: 'Revisa pull request localmente', uses: ['Code review colaborativo', 'Analizar PRs', 'Validar cambios'] },
+
+            // EJECUCIÓN
+            { name: '/run', category: '⚙️', description: 'Ejecuta y verifica aplicación', uses: ['Ver cambios en app real', 'Validar funcionalidad', 'Testing visual'] },
+            { name: '/verify', category: '⚙️', description: 'Compila, ejecuta y verifica cambios', uses: ['Validar solución', 'Alternativa a tests', 'Build verification'] },
+            { name: '/batch', category: '⚙️', description: 'Coordina cambios grandes paralelamente', uses: ['Migrar codebase', 'Refactoring masivo', 'Multi-file changes'] },
+            { name: '/tasks', category: '⚙️', description: 'Lista todo en background', uses: ['Monitorear subagentes', 'Ver paralelización', 'Seguimiento de trabajo'] },
+
+            // CONTEXTO
+            { name: '/context', category: '🧠', description: 'Visualiza uso de contexto como grid', uses: ['Optimizar contexto', 'Conocer límites', 'Cuando compactar'] },
+            { name: '/compact', category: '🧠', description: 'Resume conversación para liberar contexto', uses: ['Sesiones largas', 'Uso >80%', 'Continuidad'] },
+            { name: '/btw', category: '🧠', description: 'Pregunta rápida sin agregar al historial', uses: ['Preguntas al lado', 'No contaminar contexto', 'Asuntos menores'] },
+            { name: '/recap', category: '🧠', description: 'Resumen de una línea de sesión', uses: ['Ver progreso rápido', 'Después de pausas', 'Summary on demand'] },
+
+            // CONTROL Y REVERSIÓN
+            { name: '/rewind', category: '🔄', description: 'Revierte código y/o conversación', uses: ['Experimental falló', 'Limpiar cambios', 'Salvar conversación'] },
+            { name: '/goal', category: '🔄', description: 'Claude trabaja hasta cumplir condición', uses: ['Objetivos autónomos', 'Trabajo continuo', 'Auto-fix loop'] },
+            { name: '/teleport', category: '🔄', description: 'Trae sesión web a terminal', uses: ['Cambiar de ambiente', 'Web a CLI', 'Continuidad'] },
+            { name: '/remote-control', category: '🔄', description: 'Controla sesión terminal desde navegador', uses: ['Trabajo remoto', 'Browser control', 'Multi-device'] },
+
+            // AGENTES
+            { name: '/agents', category: '🤖', description: 'Gestiona configuraciones de subagentes', uses: ['Delegar tareas', 'Paralelización', 'Workflow orchestration'] },
+            { name: '/fork', category: '🤖', description: 'Spawn subagente que hereda conversación', uses: ['Tarea secundaria', 'Trabajo paralelo', 'Sin interrupción'] },
+            { name: '/background', category: '🤖', description: 'Detach sesión a background', uses: ['Trabajo largo', 'Liberar terminal', 'Async tasks'] },
+
+            // ESPECIALES
+            { name: '/plan', category: '🔧', description: 'Entra en modo plan antes de cambios', uses: ['Diseñar solución', 'Roadmap', 'Arquitectura'] },
+            { name: '/ask', category: '📋', description: 'Consulta arquitectónica con especialistas', uses: ['Decisiones técnicas', 'Diseño sistemas', 'Architecture'] },
+            { name: '/debug', category: '⚙️', description: 'Activa logging y diagnostica problemas', uses: ['Resolver errores', 'Troubleshooting', 'Analysis'] },
+            { name: '/doctor', category: '🔧', description: 'Diagnostica instalación', uses: ['Verificar setup', 'Problemas instalación', 'Salud del sistema'] },
+            { name: '/permissions', category: '📋', description: 'Gestiona reglas de permisos', uses: ['Automatizar prompts', 'Security rules', 'Tool access'] },
+            { name: '/usage', category: '📊', description: 'Muestra costo y estadísticas', uses: ['Rastrear gastos', 'Límites de plan', 'Desglose por skill'] },
+            { name: '/insights', category: '📊', description: 'Genera reporte de análisis', uses: ['Patrones de uso', 'Identificar fricción', 'Optimizar workflow'] },
+            { name: '/mcp', category: '🔌', description: 'Gestiona servidores MCP', uses: ['Conectar herramientas', 'OAuth auth', 'Integrations'] },
+            { name: '/help', category: '📋', description: 'Muestra ayuda y comandos disponibles', uses: ['Descubrir comandos', 'Manual rápido', 'Referencia'] },
+            { name: '/copy', category: '📋', description: 'Copia respuesta al clipboard', uses: ['Guardar resultados', 'Copiar código', 'Share output'] },
+            { name: '/export', category: '📋', description: 'Exporta conversación como texto', uses: ['Guardar sesión', 'Documentación', 'Backup'] },
+        ];
+
+        const grid = document.getElementById('commandsGrid');
+        const filters = document.getElementById('filters');
+        const searchInput = document.getElementById('searchInput');
+        let activeCategory = 'all';
+
+        function renderCommands(filtered = commands) {
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="no-results">
+                        <div class="no-results-icon">🔍</div>
+                        <h3>No se encontraron comandos</h3>
+                        <p>Intenta con otros términos de búsqueda</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(cmd => `
+                <div class="command-card">
+                    <div class="command-category">${cmd.category}</div>
+                    <div class="command-name">${cmd.name}</div>
+                    <p class="command-description">${cmd.description}</p>
+                    <div class="command-uses">
+                        <label class="uses-label">Casos de uso</label>
+                        ${cmd.uses.map(use => `<div class="use-item">${use}</div>`).join('')}
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function filterCommands() {
+            let filtered = commands;
+
+            if (activeCategory !== 'all') {
+                filtered = filtered.filter(cmd => cmd.category === activeCategory);
+            }
+
+            const searchTerm = searchInput.value.toLowerCase();
+            if (searchTerm) {
+                filtered = filtered.filter(cmd => 
+                    cmd.name.toLowerCase().includes(searchTerm) ||
+                    cmd.description.toLowerCase().includes(searchTerm) ||
+                    cmd.uses.some(use => use.toLowerCase().includes(searchTerm))
+                );
+            }
+
+            renderCommands(filtered);
+        }
+
+        // Event Listeners
+        searchInput.addEventListener('input', filterCommands);
+
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                e.target.classList.add('active');
+                activeCategory = e.target.dataset.category;
+                filterCommands();
+            });
+        });
+
+        // Initial render
+        renderCommands();
+    </script>
+</body>
+</html>
